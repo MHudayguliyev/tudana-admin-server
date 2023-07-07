@@ -370,8 +370,8 @@ const GetProducts = async(req, res) => {
         return res.status(status.error).send('Unknown error occured.')
     }
 }
-const GetServicContacts = async(req, res) => {
-    const queryText = `SELECT trim(service_contact, '+993') as contacts  FROM tbl_services`
+const GetServiceContacts = async(req, res) => {
+    const queryText = `SELECT trim(service_contact, '+993') as contact_value FROM tbl_services`
     try {
         const {rows} = await database.query(queryText, [])
         return res.status(status.success).send(rows)
@@ -399,7 +399,7 @@ const moduleExports={
     /// GET
     GetUnits,
     GetProducts,
-    GetServicContacts
+    GetServiceContacts
 }
 
 module.exports = moduleExports

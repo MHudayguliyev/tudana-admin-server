@@ -9,7 +9,7 @@ const {CheckQuery, CheckParams, CheckBody} = require('../scripts/helpers/SchemaV
 //// GET
 AdminRouter.get('/get-units', Authenticate, Admin.GetUnits)
 AdminRouter.get('/get-products', Authenticate, Admin.GetProducts)
-AdminRouter.get('/get-service-contact', Authenticate, Admin.GetServicContacts)
+AdminRouter.get('/get-service-contact', Authenticate, Admin.GetServiceContacts)
 
 //// POSTCheckQuery(Schemas.ReceptsTable.CreateReceptSchema),
 AdminRouter.post('/create-product', 
