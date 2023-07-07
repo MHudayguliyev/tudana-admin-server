@@ -359,7 +359,8 @@ const GetProducts = async(req, res) => {
 	product_desc,u.unit_name
     FROM tbl_products p
 	JOIN tbl_images i on p.product_guid = i.parent_guid
-	LEFT JOIN tbl_units u on u.unit_guid = p.unit_guid`
+	LEFT JOIN tbl_units u on u.unit_guid = p.unit_guid
+    ORDER BY product_code`
 
     try {
         const {rows} = await database.query(queryText, [])
@@ -369,7 +370,16 @@ const GetProducts = async(req, res) => {
         return res.status(status.error).send('Unknown error occured.')
     }
 }
-
+const GetServicContacts = async(req, res) => {
+    const queryText = `SELECT trim(service_contact, '+993') as contacts  FROM tbl_services`
+    try {
+        const {rows} = await database.query(queryText, [])
+        return res.status(status.success).send(rows)
+    } catch (error) {
+        console.log(error)
+        return res.status(status.error).send('Unknown error occured.')
+    }
+}
 
 const moduleExports={
     /// POST/DELETE
@@ -388,7 +398,8 @@ const moduleExports={
     UpdateAboutUs,
     /// GET
     GetUnits,
-    GetProducts
+    GetProducts,
+    GetServicContacts
 }
 
 module.exports = moduleExports

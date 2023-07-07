@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
     }
 })
 
-const upload = multer({ storage: storage }).array('attachments');
+const upload = multer({ storage: storage, }).array('attachments');
 
 function Upload(req, res, next){
     upload(req, res, (err) => {
