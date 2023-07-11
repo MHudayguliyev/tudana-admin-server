@@ -85,10 +85,11 @@ const GetPartners = async (req, res) => {
     }
 }
 const GetAboutus = async(req, res) => {
-    const queryText = `SELECT json_build_object('tm', text_tm, 'ru',text_ru, 'en', text_en) as row FROM tbl_aboutus`
+    const queryText =`SELECT json_build_object('tm', text_tm, 'ru',text_ru, 'en', text_en) as row FROM tbl_aboutus` 
     try {
         const {rows} = await database.query(queryText, [])
-        return res.status(status.success).send(rows[0].row)
+        console.log('rows', rows)
+        return res.status(status.success).send(rows)
     } catch (error) {
         console.log(error)
         return res.status(status.error).send('Unknown error occured.')
@@ -97,9 +98,9 @@ const GetAboutus = async(req, res) => {
 // const Get 
 const SendMail = async (req, res) => {
     const {phone,name,feedback} = req.body
-    console.log(req.body)
     try {
       const response = await SendEmail(phone,name,feedback)
+      console.log('response', response)
       if(response.status === 'Bad'){
         return res.status(status.bad).send('Unknown error in sendEmail.')
       }else if(response.status === 'Sent'){

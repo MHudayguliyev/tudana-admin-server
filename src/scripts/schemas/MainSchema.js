@@ -2,7 +2,7 @@ const JOI = require('joi')
 
 const Schemas = {
     SendEmailSchema: JOI.object({
-        phone: JOI.number().required().label('The sender').messages({
+        phone: JOI.string().required().min(12).max(12).label('The sender').messages({
             'number.pattern.base': '{#label} layyk gelenok!',
             "number.empty": "{#label} boş setir ululyk bolup bilmeýär",
             "any.required": "{#label} hokman gerek",

@@ -280,37 +280,36 @@ const UpdateStatistics = async(req, res) => {
 }
 
 const UpdateServices = async(req, res) => {
-    const {bq_ord_number, td_ord_number, fback_number} = req.body
-
+    const {bouquet_ord, straw_ord, contact} = req.body
 
     const initUpdate = `UPDATE tbl_services SET service_contact=`
     const wherePart = ` WHERE service_type= `
-    const updBq = `${initUpdate}'${bq_ord_number}' ${wherePart} 'bouquet_ord'`
-    const updTd = `${initUpdate}'${td_ord_number}' ${wherePart} 'straw_ord'`
-    const updFback =  `${initUpdate}'${fback_number}' ${wherePart} 'contact'`
-    const updateQuery = bq_ord_number&&!td_ord_number&&!fback_number ?  updBq: 
-                        td_ord_number&&!bq_ord_number&&!fback_number ?  updTd: 
-                        fback_number&&!bq_ord_number&&!td_ord_number ? updFback: 
+    const updBq = `${initUpdate}'${bouquet_ord}' ${wherePart} 'bouquet_ord'`
+    const updTd = `${initUpdate}'${straw_ord}' ${wherePart} 'straw_ord'`
+    const updFback =  `${initUpdate}'${contact}' ${wherePart} 'contact'`
+    const updateQuery = bouquet_ord&&!straw_ord&&!contact ?  updBq: 
+                        straw_ord&&!bouquet_ord&&!contact ?  updTd: 
+                        contact&&!bouquet_ord&&!straw_ord ? updFback: 
 
-                        bq_ord_number&&td_ord_number&&!fback_number ? 
+                        bouquet_ord&&straw_ord&&!contact ? 
                         `WITH updated AS (
                             ${updBq}
                         )
                         ${updTd}
                         `:
-                        td_ord_number&&fback_number&&!bq_ord_number ? 
+                        straw_ord&&contact&&!bouquet_ord ? 
                         `WITH updated AS (
                             ${updTd}
                         )
                         ${updFback}
                         ` : 
-                        fback_number&&bq_ord_number&&!td_ord_number ? 
+                        contact&&bouquet_ord&&!straw_ord ? 
                         `WITH updated AS (
                             ${updFback}
                         )
                         ${updBq}
                         ` : 
-                        bq_ord_number&&td_ord_number&&fback_number ? 
+                        bouquet_ord&&straw_ord&&contact ? 
                         `WITH bouquet_updated AS (
                             ${updBq}
                         ),
@@ -371,7 +370,7 @@ const GetProducts = async(req, res) => {
     }
 }
 const GetServiceContacts = async(req, res) => {
-    const queryText = `SELECT trim(service_contact, '+993') as contact_value FROM tbl_services`
+    const queryText = `SELECT service_type, trim(service_contact, '+993') as contact_value FROM tbl_services`
     try {
         const {rows} = await database.query(queryText, [])
         return res.status(status.success).send(rows)

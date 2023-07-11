@@ -3,15 +3,15 @@ const JOI = require('joi')
 const Schemas = {
     ServicesTable: {
         UpdateServicesSchema: JOI.object({
-            bq_ord_number: JOI.string().min(12).max(12).allow(null, '').messages({
+            bouquet_ord: JOI.string().min(12).max(12).allow(null, '').messages({
                 "string.min": "{#label} in azyndan 12 san bolmaly",
                 "string.max": "{#label} in kop 12 san bolup biler",
             }),
-            td_ord_number: JOI.string().min(12).max(12).allow(null, '').messages({
+            straw_ord: JOI.string().min(12).max(15).allow(null, '').messages({
                 "string.min": "{#label} in azyndan 12 san bolmaly",
                 "string.max": "{#label} in kop 12 san bolup biler",
             }),
-            fback_number: JOI.string().min(12).max(12).allow(null, '').messages({
+            contact: JOI.string().min(12).max(12).allow(null, '').messages({
                 "string.min": "{#label} in azyndan 12 san bolmaly",
                 "string.max": "{#label} in kop 12 san bolup biler",
             }),

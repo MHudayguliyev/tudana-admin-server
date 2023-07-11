@@ -3,23 +3,27 @@ const ENV = require('../../config')
 
 const mailTransporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'http://localhost',
+    port: 465,
+    secure: true,
+  
     auth: {
-        user: ENV.EMAIL_ADDRESS,
-        pass: ENV.EMAIL_PASSWORD
+        user: 'hudayguliyevm@gmail.com',
+        pass: 'lnpzhurkjykswshz'
     }
 });
 
 const SendEmail = async (phone,name,feedback) => {
     const mailDetails = {
         from: name,
-        to: ENV.EMAIL_ADDRESS,
+        to: 'hudayguliyevm@gmail.com',
         subject: "Client reference",
         html: html(phone,name,feedback)
 };
 
     const messageSent = await mailTransporter.sendMail(mailDetails);
     console.log('messageSent',messageSent)
-    if(messageSent?.accepted?.length && messageSent?.accepted?.[0].startsWith('hilligaplama')){
+    if(messageSent.accepted.length !== 0){
         return {status: 'Sent'}
     }
     return {status: 'Bad'}
@@ -34,8 +38,6 @@ const html = (phone,name,feedback) => `
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Node js Email</title>
     <link rel="icon" href="./favicon.ico" type="image/x-icon">
-
-
     <style>
         body {
             padding: 0;
@@ -49,13 +51,14 @@ const html = (phone,name,feedback) => `
         }
         .span__container {
             display: flex;
+            margin: 5px 0;
             gap: 10px;
             font-size: 16px;
             font-weight: 100;
-            color: #303030
+            color: #303030;
         }
         .label {
-            color: #1B1C1E
+            color: #4a4a4a;
         }
         .content {
             width: 33rem;
@@ -64,7 +67,7 @@ const html = (phone,name,feedback) => `
         .content p {
             border: 1px solid #1B1C1E;
             border-radius: 2px;
-            font-size: 22px;
+            font-size: 16px;
             padding: 10px;
         }
     </style>
@@ -74,16 +77,16 @@ const html = (phone,name,feedback) => `
     <body>
         <div class="email__container">
             <span class="span__container">
-                <h2>Kliendin ady: </h2>
-                <h2 class="label">${name}</h2>
+                <h3>Müşderiniň ady: </h3>
+                <h4 class="label">${name}</h4>
             </span>
             <span class="span__container">
-                <h2>Kliendin tel nomeri:  </h2>
-                <h2 class="label">${phone}</h2>
+                <h3>Müşderiniň tel nomeri:  </h3>
+                <h4 class="label">${phone}</h4>
             </span>
             <span class="span__container">
                 <div class="content">
-                    <h2 >Feedback:  </h2>
+                    <h3 >Feedback:  </h3>
                     <p>${feedback && feedback.length ? feedback : 'No feedback provided.'}</p>
                 </div>
             </span>
