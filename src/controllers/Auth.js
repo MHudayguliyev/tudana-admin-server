@@ -30,6 +30,7 @@ const Login = async (req, res) => {
             refresh_token,
             message: 'User successfully logged in.',
         }
+        console.log('response', response)
 
         return res.status(status.success).send(response)
     } catch (error) {

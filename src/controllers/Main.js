@@ -88,8 +88,7 @@ const GetAboutus = async(req, res) => {
     const queryText =`SELECT json_build_object('tm', text_tm, 'ru',text_ru, 'en', text_en) as row FROM tbl_aboutus` 
     try {
         const {rows} = await database.query(queryText, [])
-        console.log('rows', rows)
-        return res.status(status.success).send(rows)
+        return res.status(status.success).send(rows[0]?.row)
     } catch (error) {
         console.log(error)
         return res.status(status.error).send('Unknown error occured.')

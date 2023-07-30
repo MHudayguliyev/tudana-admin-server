@@ -5,7 +5,6 @@ const cors = require('cors')
 const morgan = require('morgan')
 const helmet = require('helmet')
 const ENV = require('./src/config')
-const next = require('next');
 
 const PORT = ENV.NODE_PORT || 8081
 const app = express()
@@ -54,14 +53,15 @@ app.use(helmet({
 // IMPORT ROUTES
 const AdminRouter = require('./src/routes/AdminRoute')
 const AuthRouter = require('./src/routes/AuthRoute')
-const MainRouter = require('./src/routes/MainRoute')
+const MainRouter = require('./src/routes/MainRoute');
+const Authenticate = require('./src/scripts/helpers/Authenticate');
 
 //// USE ROUTES
 app.use('/api/tudana/auth', AuthRouter)
 app.use('/api/tudana/admin', AdminRouter)
 app.use('/api/tudana/main', MainRouter)
 
-app.get('/api/tudana/users', (req, res) => {
+app.get('/api/tudana/users', Authenticate,  (req, res) => {
     const data = [{"id":1,"first_name":"Martynne","last_name":"Djekic","email":"mdjekic0@tuttocitta.it"},
     {"id":2,"first_name":"Susan","last_name":"Cane","email":"scane1@a8.net"},
     {"id":3,"first_name":"Cassius","last_name":"Graser","email":"cgraser2@diigo.com"},
@@ -75,7 +75,7 @@ app.get('/api/tudana/users', (req, res) => {
     return res.send(data)
 })
 
-app.get('/api/tudana/users/:id', (req, res) => {
+app.get('/api/tudana/users/:id',  Authenticate, (req, res) => {
     const data = [{"id":1,"first_name":"Martynne","last_name":"Djekic","email":"mdjekic0@tuttocitta.it"},
     {"id":2,"first_name":"Susan","last_name":"Cane","email":"scane1@a8.net"},
     {"id":3,"first_name":"Cassius","last_name":"Graser","email":"cgraser2@diigo.com"},
